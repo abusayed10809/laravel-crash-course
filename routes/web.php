@@ -24,16 +24,11 @@ Route::get('/', function () {
 });
 
 // single listing --------------------
-Route::get('/listing/{id}', function ($id) {
-    $singleListing = Listing::find($id);
-    if ($singleListing) {
-        return view(
-            'listing',
-            [
-                'listing' => $singleListing,
-            ],
-        );
-    } else {
-        abort(404);
-    }
+Route::get('/listing/{listing}', function (Listing $listing) {
+    return view(
+        'listing',
+        [
+            'listing' => $listing,
+        ],
+    );
 });
