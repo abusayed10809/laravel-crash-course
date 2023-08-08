@@ -15,18 +15,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/hello', function () {
-    return response('<h1>Hello World</h1>', 200)
-        ->header('Content-Type', 'text/plain');
-});
-
-Route::get('/posts/{id}', function ($id) {
-    return response('post ' . $id);
-})->where('id', '[0-9]+');
-
-Route::get('/search', function (Request $request) {
-    dd($request->name . ' ' . $request->city);
+    return view('listings', [
+        'heading' => 'latest heading',
+        'listings' => [
+            [
+                'id' => 1,
+                'title' => 'listing one',
+                'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters'
+            ],
+            [
+                'id' => 2,
+                'title' => 'listing two',
+                'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters'
+            ]
+        ]
+    ]);
 });
