@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\Listing;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,20 +15,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// all listings --------------------
 Route::get('/', function () {
     return view('listings', [
         'heading' => 'latest heading',
-        'listings' => [
-            [
-                'id' => 1,
-                'title' => 'listing one',
-                'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters'
-            ],
-            [
-                'id' => 2,
-                'title' => 'listing two',
-                'description' => 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters'
-            ]
-        ]
+        'listings' => Listing::all(),
     ]);
+});
+
+// single listing --------------------
+Route::get('/listing/{id}', function ($id) {
+    $singleListing = Listing::find($id);
+    return view(
+        'listing',
+        [
+            'listing' => $singleListing,
+        ],
+    );
 });
