@@ -16,6 +16,16 @@ class Listing extends Model
      */
     protected $table = 'listing';
 
+    // protected $fillable = [
+    //     'title',
+    //     'tags',
+    //     'company',
+    //     'location',
+    //     'email',
+    //     'website',
+    //     'description',
+    // ];
+
     public function scopeFilter($query, array $filters)
     {
         if ($filters['tag'] ?? false) {

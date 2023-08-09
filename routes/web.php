@@ -28,5 +28,11 @@ use App\Models\Listing;
 // all listings --------------------
 Route::get('/', [ListingController::class, 'index']);
 
+// create listing --------------------
+Route::get('/listings/create', [ListingController::class, 'create']);
+
+// store listing --------------------
+Route::post('/listings', [ListingController::class, 'store']);
+
 // single listing --------------------
-Route::get('/listing/{listing}', [ListingController::class, 'show']);
+Route::get('/listings/{listing}', [ListingController::class, 'show']);
