@@ -8,18 +8,18 @@ use Illuminate\Validation\Rule;
 
 class ListingController extends Controller
 {
-    // all listing --------------------
+    // index --------------------
     public function index()
     {
         return view(
             'listings.index',
             [
-                'listings' => Listing::latest()->filter(request(['tag', 'search']))->get(),
+                'listings' => Listing::latest()->filter(request(['tag', 'search']))->paginate(6),
             ],
         );
     }
 
-    // single listing --------------------
+    // show --------------------
     public function show(Listing $listing)
     {
         return view(
@@ -30,7 +30,7 @@ class ListingController extends Controller
         );
     }
 
-    // create listing --------------------
+    // create --------------------
     public function create()
     {
         return view(
@@ -38,7 +38,7 @@ class ListingController extends Controller
         );
     }
 
-    // store listing --------------------
+    // store --------------------
     public function store(Request $request)
     {
         $formfields = $request->validate([
@@ -51,8 +51,45 @@ class ListingController extends Controller
             'description' => 'required',
         ]);
 
+        if ($request->hasFile('logo')) {
+            $formfields['logo'] = $request->file('logo')->store('logos', 'public');
+        }
+
         Listing::create($formfields);
 
         return redirect('/')->with('message', 'Listing created successfully');
+    }
+
+    // edit --------------------
+    public function edit(Listing $listing)
+    {
+        return view(
+            'listings.edit',
+            [
+                'listing' => $listing,
+            ]
+        );
+    }
+
+    // update --------------------
+    public function update(Request $request, Listing $listing)
+    {
+        $formfields = $request->validate([
+            'title' => 'required',
+            'tags' => 'required',
+            'company' => ['required',],
+            'location' => 'required',
+            'email' => ['required', 'email'],
+            'website' => 'required',
+            'description' => 'required',
+        ]);
+
+        if ($request->hasFile('logo')) {
+            $formfields['logo'] = $request->file('logo')->store('logos', 'public');
+        }
+
+        $listing->update($formfields);
+
+        return back()->with('message', 'Listing updated successfully');
     }
 }

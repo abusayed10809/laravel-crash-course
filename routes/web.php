@@ -25,14 +25,20 @@ use App\Models\Listing;
 // update - Update listing
 // destroy - Delete listing
 
-// all listings --------------------
+// index --------------------
 Route::get('/', [ListingController::class, 'index']);
 
-// create listing --------------------
+// create --------------------
 Route::get('/listings/create', [ListingController::class, 'create']);
 
-// store listing --------------------
+// store --------------------
 Route::post('/listings', [ListingController::class, 'store']);
 
-// single listing --------------------
+// edit --------------------
+Route::get('/listings/{listing}/edit', [ListingController::class, 'edit']);
+
+// update --------------------
+Route::put('/listings/{listing}', [ListingController::class, 'update']);
+
+// show --------------------
 Route::get('/listings/{listing}', [ListingController::class, 'show']);
