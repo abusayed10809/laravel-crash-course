@@ -26,29 +26,50 @@ use App\Models\Listing;
 // update - Update listing
 // destroy - Delete listing
 
+
+// --------------------
+// listing
+// --------------------
+
 // index --------------------
 Route::get('/', [ListingController::class, 'index']);
 
-// create --------------------
-Route::get('/listings/create', [ListingController::class, 'create']);
+// create listing form--------------------
+Route::get('/listings/create', [ListingController::class, 'create'])->middleware('auth');
 
-// store --------------------
-Route::post('/listings', [ListingController::class, 'store']);
+// store listing--------------------
+Route::post('/listings', [ListingController::class, 'store'])->middleware('auth');
 
-// edit --------------------
-Route::get('/listings/{listing}/edit', [ListingController::class, 'edit']);
+// edit listing form --------------------
+Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])->middleware('auth');
 
-// update --------------------
-Route::put('/listings/{listing}', [ListingController::class, 'update']);
+// update listing --------------------
+Route::put('/listings/{listing}', [ListingController::class, 'update'])->middleware('auth');
 
 // delete --------------------
-Route::delete('/listings/{listing}', [ListingController::class, 'destroy']);
+Route::delete('/listings/{listing}', [ListingController::class, 'destroy'])->middleware('auth');
 
-// show --------------------
+// manage listings
+Route::get('/listings/manage', [ListingController::class, 'manage'])->middleware('auth');
+
+// show single listing --------------------
 Route::get('/listings/{listing}', [ListingController::class, 'show']);
 
+// --------------------
+// authentication
+// --------------------
+
 // create user register form --------------------
-Route::get('/register', [UserController::class, 'create']);
+Route::get('/register', [UserController::class, 'create'])->middleware('guest');
 
 // store user --------------------
 Route::post('/users', [UserController::class, 'store']);
+
+// logout user --------------------
+Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
+
+// show login form --------------------
+Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
+
+// user log in --------------------
+Route::post('users/authenticate', [UserController::class, 'authenticate']);
